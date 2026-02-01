@@ -1266,6 +1266,10 @@
                         });
                         saveStudents(localStudents);
                         renderAdminStats(localStudents);
+
+                        if (currentUser && !currentIsAdmin) {
+                            updateGradesView(currentUser);
+                        }
                     }
 
                     if (data && Array.isArray(data.lectures)) {
