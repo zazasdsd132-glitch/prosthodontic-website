@@ -1297,15 +1297,17 @@
                     const lectures = loadLectures();
                     const links = loadLinks();
 
+                    const payload = {
+                        secret: REMOTE_API_SECRET,
+                        grades: grades,
+                        lectures: lectures,
+                        links: links,
+                    };
+
                     await fetch(REMOTE_API_URL, {
                         method: "POST",
-                        headers: { "Content-Type": "application/json" },
-                        body: JSON.stringify({
-                            secret: REMOTE_API_SECRET,
-                            grades: grades,
-                            lectures: lectures,
-                            links: links,
-                        }),
+                        mode: "no-cors",
+                        body: JSON.stringify(payload),
                     });
                 } catch (e) {
                     console.warn("Unable to push remote state", e);
