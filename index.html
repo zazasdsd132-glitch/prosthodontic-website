@@ -940,6 +940,7 @@
             const STORAGE_KEY = "prosthodontic_students_v1";
             const LINKS_KEY = "prosthodontic_links_v1";
             const LECTURES_KEY = "prosthodontic_lectures_v1";
+            const SESSION_KEY = "prosthodontic_session_v1";
             const DEFAULT_LINKS = {
                 contact: "https://t.me/c/3704099326/4",
                 activities: "https://t.me/c/3704099326/3",
@@ -1194,6 +1195,42 @@
                     localStorage.setItem(LECTURES_KEY, JSON.stringify(list || []));
                 } catch (e) {
                     console.warn("Unable to save lectures data into localStorage", e);
+                }
+            }
+
+            function saveSession(username, isAdmin) {
+                try {
+                    const payload = {
+                        username: username || null,
+                        isAdmin: !!isAdmin,
+                    };
+                    localStorage.setItem(SESSION_KEY, JSON.stringify(payload));
+                } catch (e) {
+                    console.warn("Unable to save session into localStorage", e);
+                }
+            }
+
+            function loadSession() {
+                try {
+                    const raw = localStorage.getItem(SESSION_KEY);
+                    if (!raw) return null;
+                    const data = JSON.parse(raw);
+                    if (!data || typeof data !== "object" || !data.username) return null;
+                    return {
+                        username: data.username,
+                        isAdmin: !!data.isAdmin,
+                    };
+                } catch (e) {
+                    console.warn("Unable to read session from localStorage", e);
+                    return null;
+                }
+            }
+
+            function clearSession() {
+                try {
+                    localStorage.removeItem(SESSION_KEY);
+                } catch (e) {
+                    console.warn("Unable to clear session from localStorage", e);
                 }
             }
 
@@ -1567,6 +1604,7 @@
             function switchToStudentView(username, isAdmin) {
                 currentUser = username;
                 currentIsAdmin = isAdmin;
+                saveSession(username, isAdmin);
 
                 loginSection.classList.add("hidden");
                 studentSection.classList.remove("hidden");
@@ -1594,6 +1632,7 @@
             function switchToLoginView() {
                 currentUser = null;
                 currentIsAdmin = false;
+                clearSession();
                 usernameInput.value = "";
                 accessCodeInput.value = "";
 
@@ -1851,6 +1890,12 @@
                     if (adminLectureNameInput) adminLectureNameInput.value = "";
                     if (adminLectureUrlInput) adminLectureUrlInput.value = "";
                 });
+            }
+
+            const existingSession = loadSession();
+            if (existingSession && existingSession.username) {
+                switchToStudentView(existingSession.username, !!existingSession.isAdmin);
+                startBackgroundAudio();
             }
 
             renderAdminStats();
