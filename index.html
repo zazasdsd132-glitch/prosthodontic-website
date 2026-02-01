@@ -1,0 +1,1865 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Prosthodontic Portal</title>
+    <style>
+        :root {
+            --primary: #0f6fff;
+            --primary-soft: rgba(15, 111, 255, 0.12);
+            --accent: #22c55e;
+            --danger: #e11d48;
+            --bg: #020617;
+            --text-main: #e5e7eb;
+            --text-muted: #9ca3af;
+            --card-bg: rgba(15, 23, 42, 0.5);
+            --border: rgba(148, 163, 184, 0.4);
+            --shadow-soft: 0 18px 36px rgba(15, 23, 42, 0.75);
+            --radius-lg: 24px;
+            --radius-md: 16px;
+            --transition-fast: 0.18s ease-out;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", system-ui, -system-ui, "Segoe UI", sans-serif;
+            background:
+                radial-gradient(circle at 0% -20%, rgba(37, 99, 235, 0.28), transparent 55%),
+                radial-gradient(circle at 100% 120%, rgba(16, 185, 129, 0.18), transparent 55%),
+                #020617;
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 32px 16px;
+        }
+
+        .shell {
+            width: 100%;
+            max-width: 480px;
+            background: linear-gradient(135deg, rgba(148, 163, 184, 0.22), rgba(15, 23, 42, 0.96));
+            border-radius: 36px;
+            padding: 1px;
+            box-shadow: var(--shadow-soft);
+        }
+
+        .app {
+            background: radial-gradient(circle at top, rgba(15, 23, 42, 0.86), rgba(15, 23, 42, 0.96));
+            border-radius: 34px;
+            padding: 18px 18px 14px;
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+            backdrop-filter: blur(26px) saturate(170%);
+            -webkit-backdrop-filter: blur(26px) saturate(170%);
+            border: 1px solid rgba(148, 163, 184, 0.35);
+        }
+
+        header {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            margin-bottom: 4px;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .brand-symbol {
+            width: 44px;
+            height: 44px;
+            border-radius: 16px;
+            background: radial-gradient(circle at 30% 20%, #bfdbfe, #1d4ed8 62%, #0f172a 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #eff6ff;
+            font-weight: 700;
+            font-size: 20px;
+            box-shadow: 0 6px 18px rgba(37, 99, 235, 0.45);
+        }
+
+        .brand-text-main {
+            font-size: 18px;
+            font-weight: 700;
+            color: #f9fafb;
+        }
+
+        .brand-text-sub {
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .badge {
+            padding: 4px 10px;
+            border-radius: 999px;
+            background: rgba(15, 23, 42, 0.38);
+            border: 1px solid rgba(148, 163, 184, 0.7);
+            font-size: 11px;
+            color: #e5e7eb;
+        }
+
+        .badge-accent {
+            background: rgba(16, 185, 129, 0.22);
+            border-color: rgba(16, 185, 129, 0.7);
+            color: #bbf7d0;
+        }
+
+        main {
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+        }
+
+        @media (max-width: 880px) {
+            main {
+                gap: 16px;
+            }
+        }
+
+        .card {
+            background: radial-gradient(circle at top left, rgba(148, 163, 184, 0.12), rgba(15, 23, 42, 0.92));
+            border-radius: var(--radius-lg);
+            padding: 18px 16px 16px;
+            border: 1px solid rgba(148, 163, 184, 0.35);
+            box-shadow: 0 14px 32px rgba(15, 23, 42, 0.75);
+            backdrop-filter: blur(26px) saturate(170%);
+            -webkit-backdrop-filter: blur(26px) saturate(170%);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 10px;
+            margin-bottom: 16px;
+        }
+
+        .card-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: #f9fafb;
+            margin: 0 0 4px;
+        }
+
+        .card-subtitle {
+            font-size: 12px;
+            color: var(--text-muted);
+            margin: 0;
+        }
+
+        .pill {
+            padding: 4px 9px;
+            border-radius: 999px;
+            background: var(--primary-soft);
+            color: #1d4ed8;
+            font-size: 11px;
+            border: 1px solid rgba(59, 130, 246, 0.35);
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .pill-dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 999px;
+            background: #22c55e;
+        }
+
+        .welcome-main-title {
+            font-size: 20px;
+            font-weight: 800;
+            margin: 0 0 6px;
+            color: #f9fafb;
+        }
+
+        .welcome-main-title span {
+            color: #60a5fa;
+        }
+
+        .welcome-subtitle {
+            font-size: 13px;
+            color: var(--text-muted);
+            margin: 0;
+        }
+
+        .welcome-subtitle strong {
+            color: #e5e7eb;
+            font-weight: 600;
+        }
+
+        .login-form {
+            margin-top: 18px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        label {
+            font-size: 12px;
+            font-weight: 600;
+            color: #e5e7eb;
+            display: inline-block;
+            margin-bottom: 4px;
+        }
+
+        .input {
+            width: 100%;
+            padding: 9px 11px;
+            border-radius: 11px;
+            border: 1px solid rgba(148, 163, 184, 0.65);
+            background-color: rgba(15, 23, 42, 0.85);
+            font-size: 13px;
+            color: #f9fafb;
+            outline: none;
+            transition: border-color var(--transition-fast), box-shadow var(--transition-fast), background-color var(--transition-fast), transform var(--transition-fast);
+        }
+
+        .input::placeholder {
+            color: #6b7280;
+        }
+
+        .input:focus {
+            border-color: #60a5fa;
+            background-color: rgba(15, 23, 42, 0.98);
+            box-shadow: 0 0 0 1px rgba(37, 99, 235, 0.35), 0 18px 32px rgba(15, 23, 42, 0.75);
+            transform: translateY(-1px);
+        }
+
+        .helper-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+            margin-top: 2px;
+        }
+
+        .hint-text {
+            font-size: 11px;
+            color: var(--text-muted);
+        }
+
+        .primary-btn {
+            width: 100%;
+            margin-top: 12px;
+            padding: 10px 12px;
+            border-radius: 999px;
+            border: none;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            background: linear-gradient(135deg, #0f6fff, #2563eb);
+            color: #eff6ff;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            box-shadow: 0 10px 22px rgba(37, 99, 235, 0.65);
+            transition: transform var(--transition-fast), box-shadow var(--transition-fast), filter var(--transition-fast);
+        }
+
+        .primary-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 12px 26px rgba(37, 99, 235, 0.78);
+            filter: brightness(1.05);
+        }
+
+        .primary-btn:active {
+            transform: translateY(0);
+            box-shadow: 0 6px 16px rgba(30, 64, 175, 0.85);
+            filter: brightness(0.98);
+        }
+
+        .primary-btn span.icon {
+            font-size: 16px;
+        }
+
+        .error-box {
+            margin-top: 10px;
+            padding: 8px 9px;
+            border-radius: 12px;
+            border: 1px solid rgba(248, 113, 113, 0.6);
+            background: rgba(254, 226, 226, 0.85);
+            color: #991b1b;
+            font-size: 12px;
+            display: none;
+        }
+
+        .error-box.show {
+            display: block;
+        }
+
+        .muted-note {
+            margin-top: 12px;
+            font-size: 11px;
+            color: var(--text-muted);
+        }
+
+        .muted-note strong {
+            color: #e5e7eb;
+        }
+
+        .sections-grid {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr);
+            gap: 14px;
+        }
+
+        .section-card {
+            border-radius: var(--radius-md);
+            padding: 12px 12px 11px;
+            border: 1px solid rgba(148, 163, 184, 0.3);
+            background: linear-gradient(135deg, rgba(15, 23, 42, 0.7), rgba(15, 23, 42, 0.9));
+            box-shadow: 0 6px 16px rgba(15, 23, 42, 0.8);
+            transition: transform var(--transition-fast), box-shadow var(--transition-fast), border-color var(--transition-fast), background-color var(--transition-fast);
+        }
+
+        .section-card:hover {
+            transform: translateY(-1px);
+            border-color: rgba(96, 165, 250, 0.9);
+            box-shadow: 0 10px 22px rgba(15, 23, 42, 0.9);
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .section-title {
+            font-size: 14px;
+            font-weight: 700;
+            color: #f9fafb;
+        }
+
+        .section-tag {
+            font-size: 11px;
+            color: var(--text-muted);
+        }
+
+        .section-body {
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+        .grades-box {
+            margin-top: 8px;
+            padding: 8px 10px;
+            border-radius: 12px;
+            border: 1px dashed rgba(148, 163, 184, 0.7);
+            background: rgba(15, 23, 42, 0.9);
+            font-size: 12px;
+            color: var(--text-muted);
+            max-height: 220px;
+            overflow-y: auto;
+        }
+
+        .grades-box strong {
+            color: #f9fafb;
+        }
+
+        .grades-list {
+            list-style: none;
+            padding: 0;
+            margin: 6px 0 0;
+        }
+
+        .grades-list li {
+            padding: 3px 0;
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+        .grades-list li strong {
+            color: #f9fafb;
+        }
+
+        .admin-form-row {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            margin-top: 6px;
+            margin-bottom: 6px;
+        }
+
+        .lectures-admin-list {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            margin-top: 4px;
+        }
+
+        .lecture-admin-row {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        @media (min-width: 520px) {
+            .lecture-admin-row {
+                flex-direction: row;
+                align-items: center;
+            }
+
+            .lecture-admin-row .input {
+                flex: 1;
+            }
+        }
+
+        .secondary-btn {
+            margin-top: 8px;
+            padding: 7px 10px;
+            border-radius: 999px;
+            border: 1px solid rgba(148, 163, 184, 0.8);
+            background: rgba(15, 23, 42, 0.92);
+            font-size: 12px;
+            font-weight: 600;
+            color: #e5e7eb;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: background-color var(--transition-fast), border-color var(--transition-fast), transform var(--transition-fast), box-shadow var(--transition-fast);
+        }
+
+        .secondary-btn:hover {
+            background-color: rgba(15, 23, 42, 1);
+            border-color: rgba(96, 165, 250, 0.95);
+            transform: translateY(-1px);
+            box-shadow: 0 8px 18px rgba(15, 23, 42, 0.85);
+        }
+
+        .secondary-btn:active {
+            transform: translateY(0);
+            box-shadow: 0 4px 12px rgba(15, 23, 42, 0.8);
+        }
+
+        .secondary-btn.small {
+            padding: 5px 9px;
+            font-size: 11px;
+        }
+
+        .secondary-btn .pill-dot {
+            width: 6px;
+            height: 6px;
+        }
+
+        .mini-badge {
+            font-size: 10px;
+            padding: 2px 7px;
+            border-radius: 999px;
+            background: rgba(59, 130, 246, 0.22);
+            border: 1px solid rgba(59, 130, 246, 0.55);
+            color: #dbeafe;
+        }
+
+        .lectures-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-top: 8px;
+        }
+
+        .lecture-btn {
+            width: 100%;
+            padding: 9px 11px;
+            border-radius: 12px;
+            border: 1px solid rgba(156, 163, 175, 0.85);
+            background: linear-gradient(135deg, #f9fafb, #e5e7eb);
+            font-size: 12px;
+            cursor: pointer;
+            color: #111827;
+            text-align: center;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            transition: background-color var(--transition-fast), border-color var(--transition-fast), transform var(--transition-fast), box-shadow var(--transition-fast);
+        }
+
+        .lecture-btn:hover {
+            background-color: #eff6ff;
+            border-color: #60a5fa;
+            transform: translateY(-1px);
+            box-shadow: 0 6px 14px rgba(15, 23, 42, 0.35);
+        }
+
+        .lecture-btn:active {
+            transform: translateY(0);
+            box-shadow: 0 3px 8px rgba(15, 23, 42, 0.35);
+        }
+
+        .divider {
+            width: 100%;
+            height: 1px;
+            background: linear-gradient(to left, transparent, rgba(148, 163, 184, 0.6), transparent);
+            margin: 10px 0;
+        }
+
+        .admin-summary {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .summary-item {
+            border-radius: 12px;
+            padding: 9px 10px 8px;
+            background: radial-gradient(circle at top left, #020617, #0b1120);
+            color: #e5e7eb;
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .summary-label {
+            font-size: 11px;
+            color: #9ca3af;
+        }
+
+        .summary-value {
+            font-size: 17px;
+            font-weight: 700;
+        }
+
+        .summary-chip {
+            align-self: flex-start;
+            margin-top: 2px;
+            font-size: 10px;
+            padding: 2px 7px;
+            border-radius: 999px;
+            background: rgba(16, 185, 129, 0.18);
+            color: #bbf7d0;
+        }
+
+        .table-wrapper {
+            border-radius: 14px;
+            border: 1px solid rgba(148, 163, 184, 0.6);
+            background: rgba(15, 23, 42, 0.95);
+            max-height: 260px;
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 11px;
+        }
+
+        th, td {
+            padding: 7px 8px;
+            text-align: left;
+            border-bottom: 1px solid #1f2937;
+        }
+
+        thead {
+            background: #111827;
+            position: sticky;
+            top: 0;
+            z-index: 1;
+        }
+
+        th {
+            font-weight: 600;
+            color: #e5e7eb;
+        }
+
+        tbody tr:nth-child(even) {
+            background: #030712;
+        }
+
+        tbody tr:nth-child(odd) {
+            background: #020617;
+        }
+
+        .table-empty {
+            padding: 16px 12px;
+            font-size: 11px;
+            color: #6b7280;
+            text-align: center;
+        }
+
+        .activity-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 2px 7px;
+            border-radius: 999px;
+            background: rgba(59, 130, 246, 0.16);
+            color: #dbeafe;
+            font-size: 10px;
+        }
+
+        .timestamp {
+            font-size: 10px;
+            color: #9ca3af;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        footer {
+            margin-top: 4px;
+            font-size: 10px;
+            color: #6b7280;
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        footer span {
+            white-space: normal;
+        }
+    </style>
+</head>
+<body>
+    <div class="shell">
+        <div class="app">
+            <header>
+                <div class="brand">
+                    <div class="brand-symbol">P</div>
+                    <div>
+                        <div class="brand-text-main">Prosthodontic</div>
+                        <div class="brand-text-sub">
+                            منصة مادة التعويضات السنية
+                        </div>
+                    </div>
+                </div>
+                <div class="header-right">
+                    <div id="adminBadge" class="badge badge-accent hidden">وضع الأدمن مفعل</div>
+                    <button id="audioToggleBtn" class="secondary-btn small" type="button" style="margin-top:0;">
+                        <span id="audioToggleLabel">إيقاف الصوت</span>
+                    </button>
+                </div>
+            </header>
+
+            <main>
+                <!-- Login panel -->
+                <section id="loginSection" class="card">
+                    <div class="card-header">
+                        <div>
+                            <p class="pill"><span class="pill-dot"></span> بوابة طلبة مادة التعويضات السنية</p>
+                            <h1 class="welcome-main-title">
+                                بوابة <span>Prosthodontic</span> للطلبة
+                            </h1>
+                            <p class="welcome-subtitle">
+                                أدخل اسم الطالب مع الرقم كما في القائمة، ثم رمز الدخول للمادة.
+                            </p>
+                        </div>
+                    </div>
+
+                    <form id="loginForm" class="login-form">
+                        <div>
+                            <label for="username">اسم الطالب مع الرقم</label>
+                            <input id="username" class="input" type="text" autocomplete="off" placeholder="اسم الطالب مع الرقم" />
+                        </div>
+
+                        <div>
+                            <label for="accessCode">رمز الدخول للمادة</label>
+                            <input id="accessCode" class="input" type="password" placeholder="رمز الدخول للمادة" />
+                        </div>
+
+                        <button type="submit" class="primary-btn">
+                            <span class="icon">دخول</span>
+                            <span>تسجيل الدخول</span>
+                        </button>
+
+                        <div id="errorBox" class="error-box"></div>
+                    </form>
+                </section>
+
+                <!-- Student main view -->
+                <section id="studentSection" class="card hidden">
+                    <div class="card-header">
+                        <div>
+                            <h2 class="card-title">واجهة الطالب - مادة Prosthodontic</h2>
+                            <p class="card-subtitle" id="studentWelcomeText">مرحباً بك</p>
+                        </div>
+                        <button id="logoutBtn" class="secondary-btn small" type="button">
+                            <span>تسجيل خروج</span>
+                        </button>
+                    </div>
+
+                    <div class="sections-grid">
+                        <div class="section-card" id="gradesSection">
+                            <div class="section-header">
+                                <div>
+                                    <div class="section-title">قسم الدرجات</div>
+                                    <div class="section-tag">هنا تظهر درجات مادة Prosthodontic التي يتم إدخالها من لوحة الأدمن.</div>
+                                </div>
+                            </div>
+                            <div class="section-body">
+                                <button id="btnGrades" class="secondary-btn" type="button">
+                                    <span class="pill-dot"></span>
+                                    <span>عرض الدرجات</span>
+                                </button>
+                                <div id="studentGradesBox" class="grades-box">
+                                    لم يتم إدخال درجة لمادة Prosthodontic لهذا الطالب حتى الآن.
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="section-card" id="lecturesSection">
+                            <div class="section-header">
+                                <div>
+                                    <div class="section-title">قسم المحاضرات</div>
+                                    <div class="section-tag">يعرض قائمة المحاضرات كأزرار، ويتم ربط الروابط من لوحة الأدمن.</div>
+                                </div>
+                            </div>
+                            <div class="section-body">
+                                <button id="btnLectures" class="secondary-btn" type="button">
+                                    <span class="pill-dot"></span>
+                                    <span>فتح قائمة المحاضرات</span>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="section-card" id="contactSection">
+                            <div class="section-header">
+                                <div>
+                                    <div class="section-title">قسم التواصل مع الدكاتره</div>
+                                    <div class="section-tag">يفتح رابط قناة أو حساب التواصل على التليجرام بعد تحديده من لوحة الأدمن.</div>
+                                </div>
+                            </div>
+                            <div class="section-body">
+                                <button id="btnContactDoctor" class="secondary-btn" type="button">
+                                    <span class="pill-dot"></span>
+                                    <span>فتح قسم التواصل مع الدكاتره</span>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="section-card" id="worksSection">
+                            <div class="section-header">
+                                <div>
+                                    <div class="section-title">قسم عرض النشاطات</div>
+                                    <div class="section-tag">يعرض نشاطات وإعلانات مادة Prosthodontic عبر قناة التليجرام.</div>
+                                </div>
+                            </div>
+                            <div class="section-body">
+                                <button id="btnShowWorks" class="secondary-btn" type="button">
+                                    <span class="pill-dot"></span>
+                                    <span>فتح قسم عرض النشاطات</span>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="section-card" id="discussionSection">
+                            <div class="section-header">
+                                <div>
+                                    <div class="section-title">قسم المناقشة</div>
+                                    <div class="section-tag">مخصص لنقاشات وأسئلة الطلبة حول مادة Prosthodontic.</div>
+                                </div>
+                            </div>
+                            <div class="section-body">
+                                <button id="btnDiscussion" class="secondary-btn" type="button">
+                                    <span class="pill-dot"></span>
+                                    <span>فتح قسم المناقشة</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Lectures list view -->
+                <section id="lecturesViewSection" class="card hidden">
+                    <div class="card-header">
+                        <div>
+                            <h2 class="card-title">قائمة محاضرات مادة Prosthodontic</h2>
+                            <p class="card-subtitle">كل زر يمثل محاضرة، وسيتم ربط الروابط من لوحة الأدمن.</p>
+                        </div>
+                        <button id="btnBackFromLectures" class="secondary-btn small" type="button">
+                            <span>رجوع لواجهة الطالب</span>
+                        </button>
+                    </div>
+
+                    <div class="sections-grid">
+                        <div class="section-card">
+                            <div class="section-header">
+                                <div>
+                                    <div class="section-title">المحاضرات</div>
+                                    <div class="section-tag">أسماء المحاضرات مؤقتاً unknown ويمكن تعديل الروابط من لوحة الأدمن.</div>
+                                </div>
+                            </div>
+                            <div class="section-body">
+                                <div id="lecturesListStudent" class="lectures-list"></div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Admin panel -->
+                <section id="adminSection" class="card hidden">
+                    <div class="card-header">
+                        <div>
+                            <h2 class="card-title">لوحة التحكم - الأدمن</h2>
+                            <p class="card-subtitle">عرض الطلبة المسجلين، نشاطهم، وإدارة الدرجات والروابط (محلياً على هذا المتصفح فقط).</p>
+                        </div>
+                        <span class="mini-badge">ظاهر للأدمن فقط</span>
+                    </div>
+
+                    <div class="admin-summary">
+                        <div class="summary-item">
+                            <div class="summary-label">عدد الطلبة المسجلين</div>
+                            <div id="statStudentCount" class="summary-value">0</div>
+                            <div class="summary-chip">مجموع أسماء المستخدمين الذين سجّلوا الدخول</div>
+                        </div>
+                        <div class="summary-item">
+                            <div class="summary-label">إجمالي عدد مرات تسجيل الدخول</div>
+                            <div id="statLoginCount" class="summary-value">0</div>
+                            <div class="summary-chip" style="background: rgba(59,130,246,0.24); color:#dbeafe;">يُحسب لكل تسجيل دخول ناجح</div>
+                        </div>
+                    </div>
+
+                    <div class="section-card">
+                        <div class="section-header">
+                            <div>
+                                <div class="section-title">إدارة درجات الطلبة</div>
+                                <div class="section-tag">أدخل اسم المستخدم والدرجة لمادة Prosthodontic.</div>
+                            </div>
+                        </div>
+                        <div class="section-body">
+                            <div class="admin-form-row">
+                                <label for="adminGradeUsername">اسم المستخدم للطالب</label>
+                                <input id="adminGradeUsername" class="input" type="text" placeholder="مثال: student_23" />
+                            </div>
+                            <div class="admin-form-row">
+                                <label for="adminGradeValue">درجة الطالب في Prosthodontic</label>
+                                <input id="adminGradeValue" class="input" type="text" placeholder="مثال: 85 / ناجح" />
+                            </div>
+                            <button id="btnSaveGrade" class="secondary-btn" type="button">
+                                <span class="pill-dot"></span>
+                                <span>حفظ / تحديث درجة الطالب</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="section-card">
+                        <div class="section-header">
+                            <div>
+                                <div class="section-title">إدارة روابط الأزرار</div>
+                                <div class="section-tag">تحديد روابط التليجرام لأقسام التواصل والنشاطات والمناقشة.</div>
+                            </div>
+                        </div>
+                        <div class="section-body">
+                            <div class="admin-form-row">
+                                <label for="adminContactUrl">رابط قسم التواصل مع الدكاتره</label>
+                                <input id="adminContactUrl" class="input" type="url" placeholder="https://t.me/..." />
+                            </div>
+                            <div class="admin-form-row">
+                                <label for="adminActivitiesUrl">رابط قسم عرض النشاطات</label>
+                                <input id="adminActivitiesUrl" class="input" type="url" placeholder="https://t.me/..." />
+                            </div>
+                            <div class="admin-form-row">
+                                <label for="adminDiscussionUrl">رابط قسم المناقشة</label>
+                                <input id="adminDiscussionUrl" class="input" type="url" placeholder="https://t.me/..." />
+                            </div>
+                            <button id="btnSaveLinks" class="secondary-btn" type="button">
+                                <span class="pill-dot"></span>
+                                <span>حفظ الروابط</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="section-card">
+                        <div class="section-header">
+                            <div>
+                                <div class="section-title">إدارة قائمة المحاضرات</div>
+                                <div class="section-tag">إضافة محاضرات جديدة وتعديل أسمائها وروابطها.</div>
+                            </div>
+                        </div>
+                        <div class="section-body">
+                            <div class="admin-form-row">
+                                <label for="adminLectureName">اسم المحاضرة</label>
+                                <input id="adminLectureName" class="input" type="text" placeholder="مثال: Fixed 1 / unknown" />
+                            </div>
+                            <div class="admin-form-row">
+                                <label for="adminLectureUrl">رابط المحاضرة (تليجرام)</label>
+                                <input id="adminLectureUrl" class="input" type="url" placeholder="https://t.me/..." />
+                            </div>
+                            <button id="btnAddLecture" class="secondary-btn" type="button">
+                                <span class="pill-dot"></span>
+                                <span>إضافة محاضرة</span>
+                            </button>
+
+                            <div id="adminLecturesList" class="lectures-admin-list"></div>
+                        </div>
+                    </div>
+
+                    <div class="table-wrapper">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>الطالب</th>
+                                    <th>عدد مرات الدخول</th>
+                                    <th>آخر نشاط</th>
+                                    <th>آخر تسجيل دخول</th>
+                                </tr>
+                            </thead>
+                            <tbody id="studentsTableBody">
+                            </tbody>
+                        </table>
+                        <div id="tableEmptyState" class="table-empty">
+                            لا توجد سجلات حتى الآن. سيظهر الطلبة هنا بعد تسجيل الدخول.
+                        </div>
+                    </div>
+                </section>
+            </main>
+        </div>
+    </div>
+
+    <script>
+        (function () {
+            const ACCESS_CODE = "JUSTAHMED";
+            const ADMIN_USERNAME = "Admin/Ahmed";
+            const ADMIN_PASSWORD = "Ah1@#+a0/11$@+";
+            const STORAGE_KEY = "prosthodontic_students_v1";
+            const LINKS_KEY = "prosthodontic_links_v1";
+            const LECTURES_KEY = "prosthodontic_lectures_v1";
+            const DEFAULT_LINKS = {
+                contact: "https://t.me/c/3704099326/4",
+                activities: "https://t.me/c/3704099326/3",
+                discussion: "https://t.me/c/3704099326/2",
+            };
+
+            const REMOTE_API_URL = "https://script.google.com/macros/s/AKfycbxv-JjoiNxouQzcUSI5-uq58Cog0-h9XSn0MoeAFQfoZXilcK1vwfepr1UATErQIzIIbA/exec";
+            const REMOTE_API_SECRET = "AHMED_Portal_2026";
+
+            const RAW_ALLOWED_ENTRIES = [
+                "احمد عباس 2636228",
+                "نصر الله حسن 26363627",
+                "علاء فائز 72637283",
+                "مصطفى داود 3747473838",
+                "يوسف ايمن 2746381937",
+                "محمد تحسين 63648272",
+                "محمد رضا 72838382",
+                "فهد احمد 8352736362",
+                "نبأ معن 62728383623",
+                "احمد محمد 927362728",
+                "تقى وسام 92737483",
+                "مينا محمود 837373738",
+                "زمزم عبد الأمير 2636227",
+                "عباس احمد 22717273",
+                "داليا خالد — 58421",
+                "دانيه ابراهيم — 90376",
+                "رقيه جلال — 41759",
+                "رقيه طالب — 86240",
+                "رقيه لازم — 29581",
+                "رقيه ياسر — 74063",
+                "رند اثير — 51894",
+                "رند محمد — 67120",
+                "زهراء ثائر — 40691",
+                "زهراء ستار — 95238",
+                "زهراء سعد — 18740",
+                "زينب نزار — 62915",
+                "سافيا عبد — 74092",
+                "سما علي — 31586",
+                "سيف عبد — 80427",
+                "شفق ايه — 56109",
+                "شمس امير — 99264",
+                "شمس ليث — 43871",
+                "شهد حيدر — 67058",
+                "شهد صباح — 12493",
+                "صباح نوار — 85620",
+                "صفا ليث — 40987",
+                "ضحى عايد — 73164",
+                "طيبه ايناس — 29850",
+                "عباس احمد — 64571",
+                "عبد الرحمن ناصر — 91736",
+                "عبد القادر عبد — 50284",
+                "عبد المهيمن سامي — 78019",
+                "علاء فائز — 36492",
+                "علي رائد — 82940",
+                "علي محمد — 17463",
+                "علي هيثم — 59028",
+                "غدير بشار — 46195",
+                "غسق خلف — 70381",
+                "غيث عيسى — 24860",
+                "فاطمه احمد — 91604",
+                "فاطمه خير — 57239",
+                "فاطمه شاكر — 40816",
+                "فاطمه شعلان — 69042",
+                "فاطمه علي — 13597",
+                "فاطمه علي — 78431",
+                "فاطمه علي — 52084",
+                "فاطمه عماد — 36910",
+                "فاطمه محمد — 84762",
+                "فرح خالد — 21490",
+                "فهد احمد — 69017",
+                "فهد مخلد — 43856",
+                "قاسم علي — 97530",
+                "كوثر ناصر — 16482",
+                "لارا احمد — 50897",
+                "ليلى مزهر — 72641",
+                "محمد تحسين — 39258",
+                "محمد رحيم — 81406",
+                "محمد رضا — 65792",
+                "محمد عقيل — 24980",
+                "محمود سوران — 53071",
+                "مرتضى عبد — 90834",
+                "مريم بدري — 17659",
+                "مريم حسن — 62480",
+                "مريم سعد — 40973",
+                "مريم عزت — 85721",
+                "مريم كريم — 36195",
+                "مريم محمد — 74820",
+                "مريم مكي — 90514",
+                "مصطفى احمد — 68297",
+                "مصطفى داود — 13058",
+                "مصطفى رائد — 79462",
+                "منتظر حسن — 26591",
+                "مينا سرمد — 83047",
+                "نبا جاسم — 57284",
+                "نبا حيدر — 90436",
+                "نبا معن — 68129",
+                "نصر الله حسن — 34790",
+                "نور الهدى صفاء — 50618",
+                "نور الهدى عباس — 92857",
+                "نور الهدى علي — 17340",
+                "نور الهدى كريم — 76491",
+                "نور جبار — 40528",
+                "نور مصطفى — 68934",
+                "نورا محمد — 25107",
+                "نوره زياد — 84720",
+                "نورهان سفين — 39615",
+                "هاله علي — 70492",
+                "هدير محمد — 58261",
+                "يسر دريد — 13984",
+                "يوسف ايمن — 92650",
+                "يوسف عبد —",
+                "جمانه خالد — 84726",
+                "جنات قصي — 59381",
+                "دانيه ابراهيم — 76240",
+                "رقيه جلال — 41895",
+                "سما علي — 93074",
+                "شفق ايه — 25689",
+                "شهد صباح — 70136",
+                "ضحى عايد — 88452",
+                "فاطمه عماد — 34907",
+                "فاطمه محمد — 61528",
+                "فهد مخلد — 97241",
+                "ليلى مزهر — 40896",
+                "محمد عقيل — 53670",
+                "مرتضى عبد الامير — 89134",
+                "مريم بدري — 26758",
+            ];
+
+            function normalizeUsername(value) {
+                if (!value) return "";
+                return value
+                    .replace(/—/g, "-")
+                    .replace(/\s+/g, " ")
+                    .trim();
+            }
+
+            const ALLOWED_USERNAMES = RAW_ALLOWED_ENTRIES.map(normalizeUsername);
+
+            const AUDIO_TRACKS = [
+                "../4MTBvgCXZaESZ94LKpsQ+MEKmapDQFNY.m4a",
+                "../HWHYYfxzCtISUUexVKZr+fOQ_-gZsnYQ.m4a",
+                "../sNvLRaOUBoVbtOj8fJ4V+ko70cExuzZM.m4a",
+            ];
+
+            const loginSection = document.getElementById("loginSection");
+            const studentSection = document.getElementById("studentSection");
+            const lecturesViewSection = document.getElementById("lecturesViewSection");
+            const adminSection = document.getElementById("adminSection");
+            const adminBadge = document.getElementById("adminBadge");
+
+            const loginForm = document.getElementById("loginForm");
+            const usernameInput = document.getElementById("username");
+            const accessCodeInput = document.getElementById("accessCode");
+            const errorBox = document.getElementById("errorBox");
+            const studentWelcomeText = document.getElementById("studentWelcomeText");
+            const logoutBtn = document.getElementById("logoutBtn");
+            const studentGradesBox = document.getElementById("studentGradesBox");
+            const lecturesListStudent = document.getElementById("lecturesListStudent");
+            const audioToggleBtn = document.getElementById("audioToggleBtn");
+            const audioToggleLabel = document.getElementById("audioToggleLabel");
+
+            const btnGrades = document.getElementById("btnGrades");
+            const btnLectures = document.getElementById("btnLectures");
+            const btnBackFromLectures = document.getElementById("btnBackFromLectures");
+            const btnContactDoctor = document.getElementById("btnContactDoctor");
+            const btnShowWorks = document.getElementById("btnShowWorks");
+            const btnDiscussion = document.getElementById("btnDiscussion");
+            const lectureButtons = document.querySelectorAll(".lecture-btn");
+
+            const adminGradeUsernameInput = document.getElementById("adminGradeUsername");
+            const adminGradeValueInput = document.getElementById("adminGradeValue");
+            const btnSaveGrade = document.getElementById("btnSaveGrade");
+
+            const adminContactUrlInput = document.getElementById("adminContactUrl");
+            const adminActivitiesUrlInput = document.getElementById("adminActivitiesUrl");
+            const adminDiscussionUrlInput = document.getElementById("adminDiscussionUrl");
+            const btnSaveLinks = document.getElementById("btnSaveLinks");
+
+            const adminLectureNameInput = document.getElementById("adminLectureName");
+            const adminLectureUrlInput = document.getElementById("adminLectureUrl");
+            const btnAddLecture = document.getElementById("btnAddLecture");
+            const adminLecturesList = document.getElementById("adminLecturesList");
+
+            const statStudentCount = document.getElementById("statStudentCount");
+            const statLoginCount = document.getElementById("statLoginCount");
+            const studentsTableBody = document.getElementById("studentsTableBody");
+            const tableEmptyState = document.getElementById("tableEmptyState");
+
+            let currentUser = null;
+            let currentIsAdmin = false;
+            let audioElement = null;
+            let currentAudioIndex = 0;
+            let audioEnabled = true;
+
+            function loadStudents() {
+                try {
+                    const raw = localStorage.getItem(STORAGE_KEY);
+                    if (!raw) return [];
+                    const parsed = JSON.parse(raw);
+                    if (!Array.isArray(parsed)) return [];
+                    return parsed;
+                } catch (e) {
+                    console.warn("Unable to read student data from localStorage", e);
+                    return [];
+                }
+            }
+
+            function saveStudents(list) {
+                try {
+                    localStorage.setItem(STORAGE_KEY, JSON.stringify(list));
+                } catch (e) {
+                    console.warn("Unable to save student data into localStorage", e);
+                }
+            }
+
+            function loadLinks() {
+                try {
+                    const raw = localStorage.getItem(LINKS_KEY);
+                    if (!raw) return { ...DEFAULT_LINKS };
+                    const parsed = JSON.parse(raw);
+                    const obj = parsed && typeof parsed === "object" ? parsed : {};
+                    return { ...DEFAULT_LINKS, ...obj };
+                } catch (e) {
+                    console.warn("Unable to read links data from localStorage", e);
+                    return { ...DEFAULT_LINKS };
+                }
+            }
+
+            function saveLinks(links) {
+                try {
+                    localStorage.setItem(LINKS_KEY, JSON.stringify(links || {}));
+                } catch (e) {
+                    console.warn("Unable to save links data into localStorage", e);
+                }
+            }
+
+            function loadLectures() {
+                try {
+                    const raw = localStorage.getItem(LECTURES_KEY);
+                    if (!raw) return [];
+                    const parsed = JSON.parse(raw);
+                    if (!Array.isArray(parsed)) return [];
+                    return parsed;
+                } catch (e) {
+                    console.warn("Unable to read lectures data from localStorage", e);
+                    return [];
+                }
+            }
+
+            function saveLectures(list) {
+                try {
+                    localStorage.setItem(LECTURES_KEY, JSON.stringify(list || []));
+                } catch (e) {
+                    console.warn("Unable to save lectures data into localStorage", e);
+                }
+            }
+
+            function remoteIsConfigured() {
+                return REMOTE_API_URL && REMOTE_API_URL.trim() !== "";
+            }
+
+            async function remotePullState() {
+                if (!remoteIsConfigured()) return;
+                try {
+                    const res = await fetch(REMOTE_API_URL + "?t=" + Date.now());
+                    if (!res.ok) return;
+                    const data = await res.json();
+
+                    if (data && Array.isArray(data.grades)) {
+                        const localStudents = loadStudents();
+                        data.grades.forEach(function (g) {
+                            if (!g || !g.username) return;
+                            let s = localStudents.find(function (x) {
+                                return x.username === g.username;
+                            });
+                            const now = new Date().toISOString();
+                            if (!s) {
+                                s = {
+                                    username: g.username,
+                                    loginCount: 0,
+                                    actions: [],
+                                    lastLogin: now,
+                                };
+                                localStudents.push(s);
+                            }
+                            s.grade = g.grade;
+                        });
+                        saveStudents(localStudents);
+                        renderAdminStats(localStudents);
+                    }
+
+                    if (data && Array.isArray(data.lectures)) {
+                        saveLectures(data.lectures);
+                        renderAdminLecturesList();
+                        renderStudentLecturesList();
+                    }
+
+                    if (data && data.links && typeof data.links === "object") {
+                        saveLinks(data.links);
+                        hydrateAdminLinksForm();
+                    }
+                } catch (e) {
+                    console.warn("Unable to pull remote state", e);
+                }
+            }
+
+            async function remotePushState() {
+                if (!remoteIsConfigured()) return;
+                try {
+                    const students = loadStudents();
+                    const grades = students
+                        .filter(function (s) {
+                            return s.grade && String(s.grade).trim() !== "";
+                        })
+                        .map(function (s) {
+                            return { username: s.username, grade: s.grade };
+                        });
+                    const lectures = loadLectures();
+                    const links = loadLinks();
+
+                    await fetch(REMOTE_API_URL, {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({
+                            secret: REMOTE_API_SECRET,
+                            grades: grades,
+                            lectures: lectures,
+                            links: links,
+                        }),
+                    });
+                } catch (e) {
+                    console.warn("Unable to push remote state", e);
+                }
+            }
+
+            function scheduleRemotePull() {
+                if (!remoteIsConfigured()) return;
+                remotePullState();
+                setInterval(remotePullState, 60000);
+            }
+
+            function handleAudioEnded() {
+                if (!audioEnabled || !AUDIO_TRACKS.length || !audioElement) return;
+                currentAudioIndex = (currentAudioIndex + 1) % AUDIO_TRACKS.length;
+                audioElement.src = AUDIO_TRACKS[currentAudioIndex];
+                audioElement.play().catch(function () {});
+            }
+
+            function ensureAudioElement() {
+                if (audioElement || !AUDIO_TRACKS.length) return audioElement;
+                audioElement = new Audio(AUDIO_TRACKS[currentAudioIndex]);
+                audioElement.volume = 0.4;
+                audioElement.addEventListener("ended", handleAudioEnded);
+                return audioElement;
+            }
+
+            function startBackgroundAudio() {
+                if (!audioEnabled) return;
+                const audio = ensureAudioElement();
+                if (!audio) return;
+                audio.play().catch(function () {});
+            }
+
+            function pauseBackgroundAudio() {
+                if (audioElement) {
+                    audioElement.pause();
+                }
+            }
+
+            function updateAudioToggleUI() {
+                if (!audioToggleLabel) return;
+                audioToggleLabel.textContent = audioEnabled ? "إيقاف الصوت" : "تشغيل الصوت";
+            }
+
+            function recordLogin(username) {
+                const now = new Date().toISOString();
+                const list = loadStudents();
+                let found = list.find((s) => s.username === username);
+
+                if (!found) {
+                    found = {
+                        username,
+                        loginCount: 0,
+                        actions: [],
+                        lastLogin: now,
+                    };
+                    list.push(found);
+                }
+
+                found.loginCount = (found.loginCount || 0) + 1;
+                found.lastLogin = now;
+
+                saveStudents(list);
+                renderAdminStats(list);
+            }
+
+            function recordAction(username, actionLabel) {
+                if (!username) return;
+                const now = new Date().toISOString();
+                const list = loadStudents();
+                let found = list.find((s) => s.username === username);
+
+                if (!found) {
+                    found = {
+                        username,
+                        loginCount: 0,
+                        actions: [],
+                        lastLogin: now,
+                    };
+                    list.push(found);
+                }
+
+                found.actions = found.actions || [];
+                found.actions.push({ label: actionLabel, at: now });
+
+                saveStudents(list);
+                renderAdminStats(list);
+            }
+
+            function formatDate(iso) {
+                if (!iso) return "-";
+                try {
+                    const d = new Date(iso);
+                    if (isNaN(d.getTime())) return "-";
+                    return (
+                        d.getFullYear() +
+                        "/" +
+                        String(d.getMonth() + 1).padStart(2, "0") +
+                        "/" +
+                        String(d.getDate()).padStart(2, "0") +
+                        " - " +
+                        String(d.getHours()).padStart(2, "0") +
+                        ":" +
+                        String(d.getMinutes()).padStart(2, "0")
+                    );
+                } catch (e) {
+                    return "-";
+                }
+            }
+
+            function renderAdminStats(list) {
+                const students = list || loadStudents();
+                const totalStudents = students.length;
+                const totalLogins = students.reduce((sum, s) => sum + (s.loginCount || 0), 0);
+
+                statStudentCount.textContent = String(totalStudents);
+                statLoginCount.textContent = String(totalLogins);
+
+                studentsTableBody.innerHTML = "";
+
+                if (!students.length) {
+                    tableEmptyState.classList.remove("hidden");
+                    return;
+                }
+
+                tableEmptyState.classList.add("hidden");
+
+                students
+                    .slice()
+                    .sort((a, b) => (b.lastLogin || "").localeCompare(a.lastLogin || ""))
+                    .forEach((student) => {
+                        const tr = document.createElement("tr");
+
+                        const lastAction = (student.actions || [])[student.actions.length - 1];
+                        const lastActionLabel = lastAction ? lastAction.label : "No activity yet";
+                        const lastActionTime = lastAction ? formatDate(lastAction.at) : "-";
+
+                        tr.innerHTML = `
+                            <td>${student.username || "-"}</td>
+                            <td>${student.loginCount || 0}</td>
+                            <td>
+                                <span class="activity-chip">
+                                    <span class="pill-dot"></span>
+                                    <span>${lastActionLabel}</span>
+                                </span>
+                                <div class="timestamp">${lastActionTime}</div>
+                            </td>
+                            <td><span class="timestamp">${formatDate(student.lastLogin)}</span></td>
+                        `;
+
+                        studentsTableBody.appendChild(tr);
+                    });
+            }
+
+            function updateGradesView(currentUsername) {
+                if (!studentGradesBox) return;
+                const students = loadStudents();
+                const withGrades = students.filter((s) => s.grade && String(s.grade).trim() !== "");
+
+                if (!withGrades.length) {
+                    studentGradesBox.textContent =
+                        "لم يتم إدخال درجات لمادة Prosthodontic حتى الآن.";
+                    return;
+                }
+
+                let html = "<div>قائمة درجات الطلبة في مادة <strong>Prosthodontic</strong>:</div>";
+                html += "<ul class=\"grades-list\">";
+
+                withGrades
+                    .slice()
+                    .sort((a, b) => (a.username || "").localeCompare(b.username || ""))
+                    .forEach((s) => {
+                        const isCurrent = currentUsername && s.username === currentUsername;
+                        html +=
+                            "<li>" +
+                            (isCurrent ? "<strong>" : "") +
+                            (s.username || "بدون اسم") +
+                            " : " +
+                            (s.grade || "-") +
+                            (isCurrent ? "</strong>" : "") +
+                            "</li>";
+                    });
+
+                html += "</ul>";
+                studentGradesBox.innerHTML = html;
+            }
+
+            function hydrateAdminLinksForm() {
+                const links = loadLinks();
+                if (adminContactUrlInput) {
+                    adminContactUrlInput.value = links.contact || "";
+                }
+                if (adminActivitiesUrlInput) {
+                    adminActivitiesUrlInput.value = links.activities || "";
+                }
+                if (adminDiscussionUrlInput) {
+                    adminDiscussionUrlInput.value = links.discussion || "";
+                }
+            }
+
+            function renderStudentLecturesList() {
+                if (!lecturesListStudent) return;
+                const lectures = loadLectures();
+                lecturesListStudent.innerHTML = "";
+
+                if (!lectures.length) {
+                    const span = document.createElement("span");
+                    span.style.fontSize = "12px";
+                    span.style.color = "var(--text-muted)";
+                    span.textContent = "لا توجد محاضرات مضافة حتى الآن.";
+                    lecturesListStudent.appendChild(span);
+                    return;
+                }
+
+                lectures.forEach((lec) => {
+                    const btn = document.createElement("button");
+                    btn.type = "button";
+                    btn.className = "lecture-btn";
+                    btn.textContent = lec.name || "unknown";
+                    btn.addEventListener("click", function () {
+                        openLinkOrPlaceholder(
+                            lec.url,
+                            "محاضرة (" + (lec.name || "unknown") + ")"
+                        );
+                    });
+                    lecturesListStudent.appendChild(btn);
+                });
+            }
+
+            function renderAdminLecturesList() {
+                if (!adminLecturesList) return;
+                const lectures = loadLectures();
+                adminLecturesList.innerHTML = "";
+
+                if (!lectures.length) {
+                    const span = document.createElement("span");
+                    span.style.fontSize = "12px";
+                    span.style.color = "var(--text-muted)";
+                    span.textContent = "لا توجد محاضرات مضافة حتى الآن.";
+                    adminLecturesList.appendChild(span);
+                    return;
+                }
+
+                lectures.forEach((lec, index) => {
+                    const row = document.createElement("div");
+                    row.className = "lecture-admin-row";
+
+                    const labelSpan = document.createElement("span");
+                    labelSpan.style.fontSize = "12px";
+                    labelSpan.style.color = "var(--text-muted)";
+                    labelSpan.style.minWidth = "24px";
+                    labelSpan.textContent = (index + 1).toString() + ".";
+
+                    const nameSpan = document.createElement("span");
+                    nameSpan.style.fontSize = "12px";
+                    nameSpan.style.color = "#f9fafb";
+                    nameSpan.style.flex = "1";
+                    nameSpan.textContent = lec.name || "unknown";
+
+                    const editBtn = document.createElement("button");
+                    editBtn.type = "button";
+                    editBtn.className = "secondary-btn small";
+                    editBtn.textContent = "تعديل";
+                    editBtn.style.marginTop = "0";
+
+                    editBtn.addEventListener("click", function () {
+                        if (adminLectureNameInput) {
+                            adminLectureNameInput.value = lec.name || "";
+                        }
+                        if (adminLectureUrlInput) {
+                            adminLectureUrlInput.value = lec.url || "";
+                        }
+                        row.scrollIntoView({ behavior: "smooth", block: "center" });
+                        row.dataset.editing = "true";
+                        btnAddLecture.dataset.editId = String(lec.id);
+                    });
+
+                    row.appendChild(labelSpan);
+                    row.appendChild(nameSpan);
+                    row.appendChild(editBtn);
+                    adminLecturesList.appendChild(row);
+                });
+            }
+
+            function showError(message) {
+                errorBox.textContent = message || "Unexpected error";
+                errorBox.classList.add("show");
+            }
+
+            function clearError() {
+                errorBox.textContent = "";
+                errorBox.classList.remove("show");
+            }
+
+            function switchToStudentView(username, isAdmin) {
+                currentUser = username;
+                currentIsAdmin = isAdmin;
+
+                loginSection.classList.add("hidden");
+                studentSection.classList.remove("hidden");
+                studentWelcomeText.textContent = `مرحباً ${username}، يمكنك التنقل بين أقسام المادة من الأسفل.`;
+
+                if (lecturesViewSection) {
+                    lecturesViewSection.classList.add("hidden");
+                }
+
+                updateGradesView(username);
+                renderStudentLecturesList();
+
+                if (isAdmin) {
+                    adminSection.classList.remove("hidden");
+                    adminBadge.classList.remove("hidden");
+                    renderAdminStats();
+                    hydrateAdminLinksForm();
+                    renderAdminLecturesList();
+                } else {
+                    adminSection.classList.add("hidden");
+                    adminBadge.classList.add("hidden");
+                }
+            }
+
+            function switchToLoginView() {
+                currentUser = null;
+                currentIsAdmin = false;
+                usernameInput.value = "";
+                accessCodeInput.value = "";
+
+                studentSection.classList.add("hidden");
+                adminSection.classList.add("hidden");
+                adminBadge.classList.add("hidden");
+                if (lecturesViewSection) {
+                    lecturesViewSection.classList.add("hidden");
+                }
+                loginSection.classList.remove("hidden");
+                clearError();
+                usernameInput.focus();
+            }
+
+            loginForm.addEventListener("submit", function (e) {
+                e.preventDefault();
+                clearError();
+
+                const rawUsername = (usernameInput.value || "").trim();
+                const code = (accessCodeInput.value || "").trim();
+
+                if (!rawUsername) {
+                    showError("يرجى كتابة اسم المستخدم أولاً.");
+                    usernameInput.focus();
+                    return;
+                }
+
+                if (!code) {
+                    showError("يرجى إدخال رمز الدخول.");
+                    accessCodeInput.focus();
+                    return;
+                }
+
+                const normalizedUsername = normalizeUsername(rawUsername);
+
+                const isAdminLogin =
+                    rawUsername === ADMIN_USERNAME && code === ADMIN_PASSWORD;
+
+                if (isAdminLogin) {
+                    recordLogin(ADMIN_USERNAME);
+                    switchToStudentView(ADMIN_USERNAME, true);
+                    startBackgroundAudio();
+                    return;
+                }
+
+                if (code !== ACCESS_CODE) {
+                    showError("رمز الدخول غير صحيح.");
+                    accessCodeInput.focus();
+                    accessCodeInput.select();
+                    return;
+                }
+
+                if (!ALLOWED_USERNAMES.includes(normalizedUsername)) {
+                    showError("هذا الاسم غير موجود في قائمة الطلبة المسموح لهم بالدخول.");
+                    usernameInput.focus();
+                    usernameInput.select();
+                    return;
+                }
+
+                recordLogin(normalizedUsername);
+                switchToStudentView(normalizedUsername, false);
+                startBackgroundAudio();
+            });
+
+            logoutBtn.addEventListener("click", function () {
+                recordAction(currentUser, "Signed out");
+                pauseBackgroundAudio();
+                switchToLoginView();
+            });
+
+            function handlePlaceholderClick(label) {
+                recordAction(currentUser, label);
+                alert(
+                    label +
+                        "\n\nحالياً هذا الزر تجريبي أو لم يتم ضبط رابطه من لوحة الأدمن بعد."
+                );
+            }
+
+            function openLinkOrPlaceholder(url, label) {
+                if (url) {
+                    recordAction(currentUser, label);
+                    window.open(url, "_blank", "noopener,noreferrer");
+                } else {
+                    handlePlaceholderClick(label);
+                }
+            }
+
+            if (btnGrades) {
+                btnGrades.addEventListener("click", function () {
+                    if (currentUser) {
+                        updateGradesView(currentUser);
+                        recordAction(currentUser, "عرض قسم الدرجات");
+                    } else {
+                        handlePlaceholderClick("عرض قسم الدرجات");
+                    }
+                });
+            }
+
+            if (btnLectures && lecturesViewSection && studentSection) {
+                btnLectures.addEventListener("click", function () {
+                    recordAction(currentUser, "فتح قائمة المحاضرات");
+                    studentSection.classList.add("hidden");
+                    lecturesViewSection.classList.remove("hidden");
+                });
+            }
+
+            if (btnBackFromLectures && lecturesViewSection && studentSection) {
+                btnBackFromLectures.addEventListener("click", function () {
+                    recordAction(currentUser, "الرجوع من قائمة المحاضرات");
+                    lecturesViewSection.classList.add("hidden");
+                    studentSection.classList.remove("hidden");
+                });
+            }
+
+            if (btnContactDoctor) {
+                btnContactDoctor.addEventListener("click", function () {
+                    const links = loadLinks();
+                    openLinkOrPlaceholder(links.contact, "قسم التواصل مع الدكاتره");
+                });
+            }
+
+            if (btnShowWorks) {
+                btnShowWorks.addEventListener("click", function () {
+                    const links = loadLinks();
+                    openLinkOrPlaceholder(links.activities, "قسم عرض النشاطات");
+                });
+            }
+
+            if (btnDiscussion) {
+                btnDiscussion.addEventListener("click", function () {
+                    const links = loadLinks();
+                    openLinkOrPlaceholder(links.discussion, "قسم المناقشة");
+                });
+            }
+
+            if (audioToggleBtn) {
+                audioToggleBtn.addEventListener("click", function () {
+                    audioEnabled = !audioEnabled;
+                    if (audioEnabled) {
+                        startBackgroundAudio();
+                    } else {
+                        pauseBackgroundAudio();
+                    }
+                    updateAudioToggleUI();
+                });
+            }
+
+            if (lectureButtons && lectureButtons.forEach) {
+                lectureButtons.forEach(function (btn) {
+                    if (!btn) return;
+                    btn.addEventListener("click", function () {
+                        const id = btn.getAttribute("data-lecture-id");
+                        const links = loadLinks();
+                        const url =
+                            id === "lecture1"
+                                ? links.lecture1
+                                : id === "lecture2"
+                                ? links.lecture2
+                                : id === "lecture3"
+                                ? links.lecture3
+                                : "";
+                        const label = "محاضرة (" + btn.textContent.trim() + ")";
+                        openLinkOrPlaceholder(url, label);
+                    });
+                });
+            }
+
+            if (btnSaveGrade) {
+                btnSaveGrade.addEventListener("click", function () {
+                    const username = (adminGradeUsernameInput.value || "").trim();
+                    const gradeValue = (adminGradeValueInput.value || "").trim();
+
+                    if (!username || !gradeValue) {
+                        alert("يرجى كتابة اسم المستخدم والدرجة قبل الحفظ.");
+                        return;
+                    }
+
+                    const list = loadStudents();
+                    let found = list.find((s) => s.username === username);
+                    const now = new Date().toISOString();
+
+                    if (!found) {
+                        found = {
+                            username,
+                            loginCount: 0,
+                            actions: [],
+                            lastLogin: now,
+                        };
+                        list.push(found);
+                    }
+
+                    found.grade = gradeValue;
+                    saveStudents(list);
+                    renderAdminStats(list);
+                    remotePushState();
+
+                    if (currentUser) {
+                        updateGradesView(currentUser);
+                    }
+
+                    alert("تم حفظ درجة الطالب بنجاح.");
+                });
+            }
+
+            if (btnSaveLinks) {
+                btnSaveLinks.addEventListener("click", function () {
+                    const links = {
+                        contact: (adminContactUrlInput.value || "").trim(),
+                        activities: (adminActivitiesUrlInput.value || "").trim(),
+                        discussion: (adminDiscussionUrlInput.value || "").trim(),
+                    };
+
+                    saveLinks(links);
+                    remotePushState();
+                    alert("تم حفظ روابط الأزرار بنجاح.");
+                });
+            }
+
+            if (btnAddLecture) {
+                btnAddLecture.addEventListener("click", function () {
+                    if (!adminLectureNameInput && !adminLectureUrlInput) return;
+                    const name = (adminLectureNameInput.value || "").trim() || "unknown";
+                    const url = (adminLectureUrlInput.value || "").trim();
+
+                    if (!url) {
+                        const confirmNoUrl = window.confirm(
+                            "لم يتم إدخال رابط للمحاضرة. هل تريد إضافتها بدون رابط الآن؟"
+                        );
+                        if (!confirmNoUrl) return;
+                    }
+
+                    const list = loadLectures();
+                    const editId = btnAddLecture.dataset.editId;
+
+                    if (editId) {
+                        const existing = list.find((l) => String(l.id) === String(editId));
+                        if (existing) {
+                            existing.name = name;
+                            existing.url = url;
+                        }
+                        delete btnAddLecture.dataset.editId;
+                    } else {
+                        list.push({
+                            id: Date.now(),
+                            name,
+                            url,
+                        });
+                    }
+
+                    saveLectures(list);
+                    renderAdminLecturesList();
+                    renderStudentLecturesList();
+                    remotePushState();
+
+                    if (adminLectureNameInput) adminLectureNameInput.value = "";
+                    if (adminLectureUrlInput) adminLectureUrlInput.value = "";
+                });
+            }
+
+            renderAdminStats();
+            hydrateAdminLinksForm();
+            renderStudentLecturesList();
+            renderAdminLecturesList();
+            updateAudioToggleUI();
+            scheduleRemotePull();
+        })();
+    </script>
+</body>
+</html>
